@@ -12,8 +12,8 @@ use Illuminate\Database\Eloquent\Model;
  * Class MonetaryFluctuation
  * 
  * @property int|null $id
- * @property float|null $date
- * @property int|null $value_clp
+ * @property string|null $date
+ * @property float|null $value_clp
  * @property int $id_currencies
  * 
  * @property Currency $currency
@@ -26,8 +26,7 @@ class MonetaryFluctuation extends Model
 	public $timestamps = false;
 
 	protected $casts = [
-		'date' => 'float',
-		'value_clp' => 'int',
+		'value_clp' => 'float',
 		'id_currencies' => 'int'
 	];
 

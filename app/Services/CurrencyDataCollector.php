@@ -17,33 +17,55 @@ class CurrencyDataCollector
         $this->activeYears = $this->getActiveYears();
         $this->activeCurrencies = $this->getActiveCurrencies();
     }
+
     public function getAllInterestData()
     {
         $data = [];
+
+        // Iterate through each active currency
         foreach ($this->activeCurrencies as $currency) {
+            $data[$currency->name] = [];
+
+            // Store the currency ID and create a sub-array for years' data
             $data[$currency->name]['idCurrency'] = $currency['id'];
+            $data[$currency->name]['yearsData'] = [];
+
+            // Iterate through each active year
             foreach ($this->activeYears as $year) {
+                // Fetch currency data for the current year and currency
                 $yearData = $this->fetchCurrencyData($year, $currency->name);
-                $data[$currency->name][$year] = $yearData['serie'];
+
+                // Store the year's data in the corresponding sub-array
+                $data[$currency->name]['yearsData'][$year] = $yearData['serie'];
             }
         }
+
+        // Return the collected data
         return $data;
     }
 
     public function saveMonetaryFluctuationBBDD($currencyData)
     {
-        $idCurrency = $currencyData['id'];
-        foreach ($currencyData as $yearData) {
-            MonetaryFluctuation::updateOrCreate(
-                // Conditions to find the existing record
-                ['date' => $yearData['fecha']],
+        // Extract currency ID and years' data from the input array
+        $idCurrency = $currencyData['idCurrency'];
+        $yearsData = $currencyData['yearsData'];
 
-                [ // Data to update or insert if it doesn't exist
-                    'date' => $yearData['fecha'],
-                    'value_clp' => $yearData['valor'],
-                    'id_currencies' => $idCurrency
-                ]
-            );
+        // Iterate through each year in the data
+        foreach ($yearsData as $year) {
+            // Iterate through each data entry in the current year
+            foreach ($year as $data) {
+                // Use updateOrCreate to either update the existing record or create a new one
+                MonetaryFluctuation::updateOrCreate(
+                    // Conditions to find the existing record (based on date and currency ID)
+                    ['date' => $data['fecha'], 'id_currencies' => $idCurrency],
+
+                    [ // Data to update or insert if it doesn't exist
+                        'date' => $data['fecha'],
+                        'value_clp' => $data['valor'],
+                        'id_currencies' => $idCurrency
+                    ]
+                );
+            }
         }
     }
 

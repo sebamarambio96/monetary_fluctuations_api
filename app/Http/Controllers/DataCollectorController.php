@@ -19,13 +19,13 @@ class DataCollectorController extends Controller
 
     // Define custom error messages
     private $messages = [
-        'start_date.required' => 'The start date is required.',
-        'start_date.date' => 'The start date must be a valid date.',
-        'end_date.required' => 'The end date is required.',
-        'end_date.date' => 'The end date must be a valid date.',
-        'end_date.after_or_equal' => 'The end date must be equal to or after the start date.',
-        'currency_name.required' => 'The currency name is required.',
-        'currency_name.exists' => 'The selected currency is invalid.',
+        'start_date.required' => 'La fecha de inicio es obligatoria.',
+        'start_date.date' => 'La fecha de inicio debe ser una fecha válida.',
+        'end_date.required' => 'La fecha de fin es obligatoria.',
+        'end_date.date' => 'La fecha de fin debe ser una fecha válida.',
+        'end_date.after_or_equal' => 'La fecha de fin debe ser igual o posterior a la fecha de inicio.',
+        'currency_name.required' => 'El nombre de la moneda es obligatorio.',
+        'currency_name.exists' => 'La moneda seleccionada no es válida.'
     ];
 
     // Important Endpoint
@@ -41,16 +41,20 @@ class DataCollectorController extends Controller
 
             // Check if validation fails
             if ($validator->fails()) {
-                return response()->json(['error' => $validator->errors()], 400);
+                return response()->json(['error' => $validator->errors()], 200);
             }
             // Dates are valid, continue with the rest of the logic
             $startDate = $request->input('start_date');
             $endDate = $request->input('end_date');
 
-            $dollarValues = MonetaryFluctuation::whereBetween('date', [$startDate, $endDate])
+            $currencyValues = MonetaryFluctuation::with(['currency' => function ($query) {
+                $query->select('id', 'name');
+            }])
+                ->whereBetween('date', [$startDate, $endDate])
+                ->orderBy('date', 'asc')
                 ->get();
 
-            return response()->json($dollarValues, 200);
+            return response()->json(["data" => $currencyValues], 200);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             // If an exception (error) occurs, catch it and return an error response

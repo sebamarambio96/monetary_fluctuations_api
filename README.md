@@ -13,6 +13,10 @@ Para empezar, solo necesitamos iniciar el servidor de forma local ejecutando est
 ```
 php artisan serve
 ```
+Como alternativa, he hecho un despliegue rápido en railway para poder consultarlo sin necesidad de instalarlo, a continuación les dejo el URL base:
+
+https://monetaryfluctuationsapi-production.up.railway.app/
+
 # Base de datos:
 Como comenté anteriormente, me pareció una gran idea crear este proyecto con una base de datos autocontenida para facilitar su revisión, este archivo esta presente en la ruta ```/data/api-dolar.sqlite```. Por lo tanto, utilicé [SQLite](https://www.sqlite.org/index.html). Esta base de datos me permite compartir mi proyecto de manera ágil y además proporciona una velocidad de respuesta óptima al interactuar con ella en el frontend.
 

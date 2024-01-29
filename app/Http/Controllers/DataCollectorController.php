@@ -17,8 +17,9 @@ class DataCollectorController extends Controller
         'currency_name' => 'required|exists:currencies,name'
     ];
 
-    // Define custom error messages
     private $messages = [
+        // These messages are in Spanish because, unlike the 500 error,
+        // they will be displayed directly on the front end.
         'start_date.required' => 'La fecha de inicio es obligatoria.',
         'start_date.date' => 'La fecha de inicio debe ser una fecha válida.',
         'end_date.required' => 'La fecha de fin es obligatoria.',
@@ -43,7 +44,7 @@ class DataCollectorController extends Controller
             if ($validator->fails()) {
                 return response()->json(['error' => $validator->errors()], 200);
             }
-            // Dates are valid, continue with the rest of the logic
+            // If the dates are valid, they are obtained from the URL parameters.
             $startDate = $request->input('start_date');
             $endDate = $request->input('end_date');
 
@@ -65,6 +66,8 @@ class DataCollectorController extends Controller
     public static function getAllInterestData()
     {
         try {
+            // It retrieves information from the API, all active currencies in the
+            // local database corresponding to all active years.
             $dataCollector = new CurrencyDataCollector();
             return response()->json($dataCollector->getAllInterestData(), 200);
         } catch (\Exception $e) {
@@ -79,6 +82,7 @@ class DataCollectorController extends Controller
         try {
             $dataCollector = new CurrencyDataCollector();
             $interestData = $dataCollector->getAllInterestData();
+            // It collects all the relevant information and stores it in an organized manner in the database.
             foreach ($interestData as $currencyData) {
                 $dataCollector->saveMonetaryFluctuationBBDD($currencyData);
             }

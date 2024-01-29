@@ -89,7 +89,7 @@ class CurrencyDataCollector
 
     public static function getActiveCurrencies()
     {
-        // Only get "name" column
+        // Only get "name" and "id" column
         return Currency::where('status', 1)->get(['id', 'name']);
     }
 }

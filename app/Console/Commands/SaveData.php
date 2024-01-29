@@ -30,6 +30,7 @@ class SaveData extends Command
         try {
             $dataCollector = new CurrencyDataCollector();
             $interestData = $dataCollector->getAllInterestData();
+            // It collects all the relevant information and stores it in an organized manner in the database.
             foreach ($interestData as $currencyData) {
                 $dataCollector->saveMonetaryFluctuationBBDD($currencyData);
             }

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Services\CurrencyDataCollector;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class InterestCurrencyController extends Controller

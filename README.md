@@ -81,6 +81,10 @@ Que como podemos ver recibe a través de la URL los siguientes parámetros:
 | start_date | Fecha de YYYY-MM-D |
 | end_date | Fecha final YYYY-MM-D |
 
+Entonces, un ejemplo podría ser:
+```
+http://127.0.0.1:8000/api/get-currency-values/dolar/?start_date=2024-01-01&end_date=2024-01-31
+```
 Con esto, podremos obtener los datos correspondientes a la moneda que buscamos, en la fecha que solicitemos. En caso de no tener datos guardados en la base de datos, retornará un array vacío.
 # Tareas programadas:
 He dejado una tarea programada, la cual sirve para revisar cuáles son los años y divisas de interés y ejecutar los mecanismos necesarios para obtenerla de la API externa y guardarla de manera ordenada en la base de datos. A continuación, dejaré una lista con los comandos asociados a esta tarea:

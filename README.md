@@ -103,4 +103,3 @@ php artisan app:savedata
 
 ------
 Para finalizar, solo espero que este proyecto, aunque simple, les haya parecido interesante.
->>>>>>> 6218dacdf6f57b0ddf08b9940fc215673b3ea0e8

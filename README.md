@@ -7,6 +7,7 @@ git clone https://github.com/sebamarambio96/monetary_fluctuations_api.git
 cd ./monetary_fluctuations_api
 composer install
 ```
+Como paso final debemos renombrar el archivo ```.env.example``` a ```.env```.
 # ¡Comenzamos!
 Para empezar, solo necesitamos iniciar el servidor de forma local ejecutando este comando desde la carpeta raiz:
 ```
